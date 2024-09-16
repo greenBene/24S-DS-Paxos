@@ -11,18 +11,19 @@ import java.util.stream.IntStream;
 public class Proposer extends Node {
     public static String PREFIX = "proposer";
 
-    private int proposal_number;
+    private int proposalNumber;
     private String proposalValue;
     private List<String> chosenMajority;
 
     private int acceptedNumber = -1;
     private String acceptedValue = null;
+
     private int promiseCount = 0;
     private int acceptedCount = 0;
 
     public Proposer(int id) {
         super(PREFIX + id);
-        proposal_number = id;
+        proposalNumber = id;
     }
 
     @Override
@@ -70,13 +71,16 @@ public class Proposer extends Node {
         int n = message.queryInteger("n");
         int receivedHighestAcceptedNumber = message.queryInteger("highest");
         String receivedAcceptedValue = message.query("value");
+        String sender = message.query("sender");
 
-        System.out.println(NodeName() + ": Receved promise(" + n + "," + receivedHighestAcceptedNumber + ","
-                + receivedAcceptedValue + ")");
-        if (n != proposal_number) {
+        System.out.println(NodeName() + ": Received promise(" + n + "," + receivedHighestAcceptedNumber + ","
+                + receivedAcceptedValue + ") from " + sender);
+
+        if (n != proposalNumber) {
             System.out.println(NodeName() + ": Ignore promise " + n);
             return;
         }
+
         if(receivedHighestAcceptedNumber > acceptedNumber) {
             acceptedNumber = receivedHighestAcceptedNumber;
             acceptedValue = receivedAcceptedValue;
@@ -84,9 +88,9 @@ public class Proposer extends Node {
         promiseCount++;
 
         if(promiseCount == chosenMajority.size()) {
-            System.out.println(NodeName() + ": Request Accepting of " + promiseCount);
+            System.out.println(NodeName() + ": Request Accepting of " + proposalNumber);
             Message accept = new Message(Messages.ACCEPT);
-            accept.add("n", proposal_number);
+            accept.add("n", proposalNumber);
             accept.add("sender", NodeName());
             accept.add("value", (acceptedValue.isEmpty() ? proposalValue : acceptedValue));
             for (String acceptor : chosenMajority) {
@@ -97,12 +101,17 @@ public class Proposer extends Node {
 
     private void onAccepted(Message message) {
         int n = message.queryInteger("n");
-        if (n != proposal_number) return;
+        String sender = message.query("sender");
+        if (n != proposalNumber) return;
         acceptedCount++;
 
+        System.out.println(NodeName() + ": Received accept from " + sender);
+
         if(acceptedCount == chosenMajority.size()) {
+            String value = acceptedValue.isEmpty() ? proposalValue : acceptedValue;
+            System.out.println(NodeName() + ": Received a majority to accept " + value);
             Message decide = new Message(Messages.DECIDE);
-            decide.add("value", (acceptedValue.isEmpty() ? proposalValue : acceptedValue));
+            decide.add("value", value);
             for(String learner: getLearner()) {
                 sendBlindly(decide, learner);
             }
@@ -140,7 +149,7 @@ public class Proposer extends Node {
      * @return Next proposal number
      */
     private int getNextProposalNumber() {
-        proposal_number += BasicPaxos.PROPOSAL_NODES;
-        return proposal_number;
+        proposalNumber += BasicPaxos.PROPOSAL_NODES;
+        return proposalNumber;
     }
 }

@@ -7,36 +7,10 @@ import org.oxoo2a.sim4da.Simulator;
 public class BasicPaxos {
 
 
-    public static int PROPOSAL_NODES = 3;
+    public static int PROPOSAL_NODES = 4;
     public static int ACCEPTOR_NODES = 7;
     public static int LEARNER_NODES = 5;
-    public static int CLIENT_NODES = 3;
-
-    public static String[] NAMES = {"Alice", "Bob", "Charly", "Danny", "Emil", "Franca"};
-
-
-    public static class Client extends Node {
-        private static int MAX_WAIT_IN_SECONDS = 0;
-
-        private final int proposeId;
-        public Client(String name, int proposeId) {
-            super(name);
-            this.proposeId = proposeId;
-        }
-
-        @Override
-        protected void engage() {
-            int sleepTime = (int)(Math.random() * MAX_WAIT_IN_SECONDS * 1000);
-            System.out.println(NodeName() + " sleeping for " + sleepTime + " milliseconds");
-            sleep(sleepTime);
-
-            Message propose = new Message(Messages.PROPOSE);
-            propose.add("value", NodeName());
-
-            sendBlindly(propose, Proposer.PREFIX+proposeId);
-        }
-    }
-
+    public static int CLIENT_NODES = 4;
 
     public static void main(String[] args) {
         Proposer[] proposers = new Proposer[PROPOSAL_NODES];
@@ -56,9 +30,11 @@ public class BasicPaxos {
 
         Client[] clients = new Client[CLIENT_NODES];
         for (int i = 0; i < CLIENT_NODES; i++) {
-            clients[i] = new Client(NAMES[i], i);
+            if(i >= Client.NAMES.length) {
+                throw new IllegalArgumentException("Not enough names available. Please add more");
+            }
+            clients[i] = new Client(i);
         }
-
 
         Simulator simulator = Simulator.getInstance();
         simulator.simulate(30);

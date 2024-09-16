@@ -7,8 +7,8 @@ public class Acceptor extends Node {
 
     public static String PREFIX = "acceptor";
 
-    private int highest_proposal_number = -1;
-    private int accepted_proposal_number = -1;
+    private int highestProposalNumber = -1;
+    private int acceptedProposalNumber = -1;
     private String value = "";
 
     public Acceptor(int id) {
@@ -34,32 +34,48 @@ public class Acceptor extends Node {
     private void onPrepare(Message message) {
         int proposal_number = message.queryInteger("n");
         String sender = message.query("sender");
-        if (proposal_number > highest_proposal_number) {
+        System.out.println(NodeName() + ": Received prepare proposal " + proposal_number + " from " + sender);
+        if (proposal_number > highestProposalNumber) {
             Message promise = new Message(Messages.PROMISE);
             promise.add("sender", NodeName());
             promise.add("n", proposal_number);
-            promise.add("highest", accepted_proposal_number);
+            promise.add("highest", acceptedProposalNumber);
             promise.add("value", value);
 
-            highest_proposal_number = proposal_number;
-            sendBlindly(promise, sender);
-        }
+            System.out.println(NodeName() + ": Sending promise ("
+                    + proposal_number + ","
+                    + acceptedProposalNumber + ", "
+                    + value + ") to " + sender);
 
+            highestProposalNumber = proposal_number;
+            sendBlindly(promise, sender);
+        } else {
+            System.out.println(NodeName() + ": Ignoring prepare proposal " + proposal_number + " from " + sender);
+        }
     }
 
     private void onAccept(Message message) {
         int proposal_number = message.queryInteger("n");
-        if (proposal_number >= highest_proposal_number) {
-            highest_proposal_number = proposal_number;
-            accepted_proposal_number = proposal_number;
+        String sender = message.query("sender");
+
+        System.out.println(NodeName() + ": Received accept proposal " + proposal_number + " from " + sender);
+
+        if (proposal_number >= highestProposalNumber) {
+            highestProposalNumber = proposal_number;
+            acceptedProposalNumber = proposal_number;
             value = message.query("value");
-            String sender = message.query("sender");
+
+            System.out.println(NodeName() + ": Accepted proposal("
+                    + proposal_number + ","
+                    + value + ") from " + sender);
 
             Message accepted = new Message(Messages.ACCEPTED);
             accepted.add("sender", NodeName());
             accepted.add("n", proposal_number);
 
             sendBlindly(accepted, sender);
+        } else {
+            System.out.println(NodeName() + ": Ignoring accept proposal " + proposal_number + " from " + sender);
         }
     }
 }
