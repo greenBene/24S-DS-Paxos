@@ -1,0 +1,94 @@
+Bob: Sleeping for 89 milliseconds
+Alice: Sleeping for 275 milliseconds
+Danny: Sleeping for 354 milliseconds
+Charly: Sleeping for 451 milliseconds
+Bob: Requesting to be the leader.
+proposer1: Start Proposal(5,Bob)
+acceptor1: Received prepare proposal 5 from proposer1
+acceptor5: Received prepare proposal 5 from proposer1
+acceptor0: Received prepare proposal 5 from proposer1
+acceptor2: Received prepare proposal 5 from proposer1
+acceptor0: Sending promise (5,-1, ) to proposer1
+acceptor1: Sending promise (5,-1, ) to proposer1
+acceptor2: Sending promise (5,-1, ) to proposer1
+acceptor5: Sending promise (5,-1, ) to proposer1
+proposer1: Received promise(5,-1,) from acceptor0
+proposer1: Received promise(5,-1,) from acceptor2
+proposer1: Received promise(5,-1,) from acceptor5
+proposer1: Received promise(5,-1,) from acceptor1
+proposer1: Request Accepting of 5
+acceptor1: Received accept proposal 5 from proposer1
+acceptor2: Received accept proposal 5 from proposer1
+acceptor0: Received accept proposal 5 from proposer1
+acceptor5: Received accept proposal 5 from proposer1
+acceptor2: Accepted proposal(5,Bob) from proposer1
+acceptor1: Accepted proposal(5,Bob) from proposer1
+acceptor0: Accepted proposal(5,Bob) from proposer1
+acceptor5: Accepted proposal(5,Bob) from proposer1
+proposer1: Received accept from acceptor2
+proposer1: Received accept from acceptor1
+proposer1: Received accept from acceptor0
+proposer1: Received accept from acceptor5
+proposer1: Received a majority to accept Bob
+learner0: Decided on value: Bob
+learner2: Decided on value: Bob
+learner1: Decided on value: Bob
+learner3: Decided on value: Bob
+learner4: Decided on value: Bob
+Alice: Requesting to be the leader.
+proposer0: Start Proposal(4,Alice)
+acceptor4: Received prepare proposal 4 from proposer0
+acceptor5: Received prepare proposal 4 from proposer0
+acceptor4: Sending promise (4,-1, ) to proposer0
+acceptor6: Received prepare proposal 4 from proposer0
+acceptor6: Sending promise (4,-1, ) to proposer0
+acceptor2: Received prepare proposal 4 from proposer0
+acceptor5: Ignoring prepare proposal 4 from proposer0
+proposer0: Received promise(4,-1,) from acceptor4
+proposer0: Received promise(4,-1,) from acceptor6
+acceptor2: Ignoring prepare proposal 4 from proposer0
+Danny: Requesting to be the leader.
+proposer3: Start Proposal(7,Danny)
+acceptor3: Received prepare proposal 7 from proposer3
+acceptor5: Received prepare proposal 7 from proposer3
+acceptor3: Sending promise (7,-1, ) to proposer3
+acceptor5: Sending promise (7,5, Bob) to proposer3
+acceptor1: Received prepare proposal 7 from proposer3
+acceptor1: Sending promise (7,5, Bob) to proposer3
+acceptor2: Received prepare proposal 7 from proposer3
+acceptor2: Sending promise (7,5, Bob) to proposer3
+proposer3: Received promise(7,5,Bob) from acceptor5
+proposer3: Received promise(7,-1,) from acceptor3
+proposer3: Received promise(7,5,Bob) from acceptor1
+proposer3: Received promise(7,5,Bob) from acceptor2
+proposer3: Request Accepting of 7
+acceptor3: Received accept proposal 7 from proposer3
+acceptor3: Accepted proposal(7,Bob) from proposer3
+acceptor5: Received accept proposal 7 from proposer3
+acceptor5: Accepted proposal(7,Bob) from proposer3
+acceptor1: Received accept proposal 7 from proposer3
+acceptor1: Accepted proposal(7,Bob) from proposer3
+proposer3: Received accept from acceptor3
+acceptor2: Received accept proposal 7 from proposer3
+acceptor2: Accepted proposal(7,Bob) from proposer3
+proposer3: Received accept from acceptor5
+proposer3: Received accept from acceptor1
+proposer3: Received accept from acceptor2
+proposer3: Received a majority to accept Bob
+learner0: Decided on value: Bob
+learner1: Decided on value: Bob
+learner2: Decided on value: Bob
+learner3: Decided on value: Bob
+learner4: Decided on value: Bob
+Charly: Requesting to be the leader.
+proposer2: Start Proposal(6,Charly)
+acceptor2: Received prepare proposal 6 from proposer2
+acceptor2: Ignoring prepare proposal 6 from proposer2
+acceptor4: Received prepare proposal 6 from proposer2
+acceptor4: Sending promise (6,-1, ) to proposer2
+acceptor3: Received prepare proposal 6 from proposer2
+acceptor3: Ignoring prepare proposal 6 from proposer2
+acceptor6: Received prepare proposal 6 from proposer2
+acceptor6: Sending promise (6,-1, ) to proposer2
+proposer2: Received promise(6,-1,) from acceptor4
+proposer2: Received promise(6,-1,) from acceptor6
