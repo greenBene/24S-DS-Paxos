@@ -1,7 +1,5 @@
 package click.greenbene.uni.ds.paxos;
 
-import org.oxoo2a.sim4da.Message;
-import org.oxoo2a.sim4da.Node;
 import org.oxoo2a.sim4da.Simulator;
 
 public class BasicPaxos {

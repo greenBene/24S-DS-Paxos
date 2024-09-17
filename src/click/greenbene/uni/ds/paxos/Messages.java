@@ -5,7 +5,7 @@ import org.oxoo2a.sim4da.Message;
 public class Messages {
 
     // Send to proposer nodes to initiate a run
-    //  Payload {'value': suggested_value }
+    //  Payload { 'value': suggested_value }
     public static Message PROPOSE = new Message().add("name", "PROPOSE");
 
     // Send to acceptor nodes to request that sending node can send value
@@ -21,7 +21,7 @@ public class Messages {
     public static Message ACCEPT = new Message().add("name", "ACCEPT");
 
     // Send to proposer to acknowledge that proposed value was accepted.
-    // Payload: { "n": proposal_number }
+    // Payload: { 'n': proposal_number }
     public static Message ACCEPTED = new Message().add("name", "ACCEPTED");
 
     // Send to learner nodes to notify them that a value was accepted upon
